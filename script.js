@@ -5,18 +5,74 @@ const titanic = document.querySelector('#titanic')
 const btn = document.querySelector('#btn')
 const btns = document.querySelector('#btns')
 const btnss = document.querySelector('#btnss')
+const btnage = document.querySelector('#btnage')
+const btnfare = document.querySelector('#btnfare')
+const btnpclass = document.querySelector('#btnss')
 
 
 // Set some styles on the titanic
 // display flex, justifyContent center, alignItems flex-end
 titanic.style.display = 'grid'
-titanic.style.gridTemplateColumns = 'repeat(30, 15px)'
-titanic.style.gridGap = '1.5px'
+titanic.style.gridTemplateColumns = 'repeat(34, 21px)'
+titanic.style.gridGap = '1.4px'
 
 // Map over the data and make a new element for each passenger
 const passengers = data.map(p => {
   return document.createElement('div')
 })
+
+
+
+// Loop over each passenger and append them to the titanic
+passengers.forEach(p => {
+  titanic.appendChild(p)
+})
+
+function renderPassengers(){
+  passengers.forEach((p, i) => {
+    p.classList.add('passenger')
+    p.dataset.id = i
+    p.style.width = '20px'
+    p.style.height = '20px'
+    p.style.backgroundColor = '#000'
+    p.style.borderRadius = data[i].fields.sex === 'female' ? '50%' : '0'
+    p.style.opacity = data[i].fields.survived === 'Yes' ? '1.0' : '.3'
+    const portColor = { S: 'tomato', C: 'cornflowerblue', Q: 'orange', undefined: 'green' }
+    p.style.backgroundColor = portColor[data[i].fields.embarked]
+
+
+  })
+}
+
+renderPassengers()
+// Let's loop over each passenger and set some styles 
+
+// Challenges - 
+
+// Make the squares a little bigger 15px by 15px. 
+// You'll need to change both the gridTemplateColumn on the
+// titanic and the width and height of each passenger. 
+
+
+
+// Change the number of columns on the titanic to 34
+
+
+// Display each passenger as a circle if they are female. 
+// Do this by setting the borderRadius of each passenger. 
+// Match the passenger in passengers to the object data 
+// in the data array by the index. 
+
+
+
+// Display each passengers who did not survive as 
+// opacity 0.5. 
+
+
+
+// Set the backgroundColor of each passenger by their 
+// embarked value. There are three possible values: 
+// 'S', 'C', and 'Q'
 
 
 btn.addEventListener("click", () => {
@@ -32,6 +88,24 @@ btns.addEventListener("click", () => {
 btnss.addEventListener("click", () => {
   sortEmbarked()
   renderPassengers()
+});
+
+btnage.addEventListener("click", () => {
+  sortAge()
+  renderPassengers()
+
+});
+
+btnfare.addEventListener("click", () => {
+  sortFare()
+  renderPassengers()
+
+});
+
+btnpclass.addEventListener("click", () => {
+  sortPClass()
+  renderPassengers()
+
 });
 
 
@@ -69,71 +143,25 @@ function sortEmbarked(){
 
 }
 
-
-
-
-
-
-
-
-// Loop over each passenger and append them to the titanic
-passengers.forEach(p => {
-  titanic.appendChild(p)
-})
-
-function renderPassengers(){
-  passengers.forEach((p, i) => {
-    p.style.width = '15px'
-    p.style.height = '15px'
-    p.style.backgroundColor = '#000'
-    p.style.borderRadius = data[i].fields.sex === 'female' ? '50%' : '0'
-    p.style.opacity = data[i].fields.survived === 'Yes' ? '1.0' : '.3'
-    const portColor = { S: 'tomato', C: 'cornflowerblue', Q: 'orange', undefined: 'green' }
-    p.style.backgroundColor = portColor[data[i].fields.embarked]
-
-
+function sortFare() {
+  data.sort((a, b) => {
+    return a.fields.fare - b.fields.fare
   })
-
-
 }
 
-function flash(el, c1, c2) {
-  var text = document.getElementById(el);
-  text.style.color = (text.style.color == c2) ? c1 : c2;
+function sortPClass(){
+  data.sort((a, b) => {
+   return  b.fields.pclass - a.fields.pclass
+  })
 }
-var clr1 = setInterval(function() { flash('foo1', 'gray', 'red') }, 1000);
-var clr2 = setInterval(function() { flash('foo2', 'gray', 'blue') }, 1000);
-var clr3 = setInterval(function() { flash('foo3', 'gray', 'green') }, 1000);
-
-renderPassengers()
-// Let's loop over each passenger and set some styles 
-
-// Challenges - 
-
-// Make the squares a little bigger 15px by 15px. 
-// You'll need to change both the gridTemplateColumn on the
-// titanic and the width and height of each passenger. 
 
 
 
-// Change the number of columns on the titanic to 34
-
-
-// Display each passenger as a circle if they are female. 
-// Do this by setting the borderRadius of each passenger. 
-// Match the passenger in passengers to the object data 
-// in the data array by the index. 
-
-
-
-// Display each passengers who did not survive as 
-// opacity 0.5. 
-
-
-
-// Set the backgroundColor of each passenger by their 
-// embarked value. There are three possible values: 
-// 'S', 'C', and 'Q'
+function sortAge() {
+  data.sort((a, b) => {
+    return a.fields.age - b.fields.age
+  })
+}
 
 
 
@@ -141,6 +169,7 @@ const passengerDetails = document.querySelector('#passenger-details')
 
 document.body.addEventListener('mouseover', (e) => {
   if (e.target.matches('.passenger')) {
+    console.log('mouse enter passenger')
     const id = e.target.dataset.id
     const fields = data[id].fields
 
@@ -148,15 +177,23 @@ document.body.addEventListener('mouseover', (e) => {
     passengerDetails.style.position = 'absolute'
     passengerDetails.style.left = `${e.pageX + 3}px`
     passengerDetails.style.top = `${e.pageY + 3}px`
-    passengerDetails.style.backgroundColor = '#fff'
-    passengerDetails.style.border = '1px solid'
+    passengerDetails.style.backgroundColor = 'black'
+    passengerDetails.style.color = '#fff'
+
+    passengerDetails.style.opacity = '.7'
+    passengerDetails.style.border = '.3px solid'
     passengerDetails.style.padding = '0.5em'
 
     passengerDetails.innerHTML = 
-    `<strong>${fields.name}</strong>
+    `
     <ul>
+    <li>Name: ${fields.name}</li>
+    
       <li>Age: ${fields.age}</li>     
-       <li>Age: ${fields.fare}</li>
+       <li>Fare: ${fields.fare}</li>
+       <li>Gender: ${fields.sex}</li>   
+       <li>Survived: ${fields.survived}</li>    
+
     </ul>`
   }
 })
