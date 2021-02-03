@@ -12,3 +12,22 @@
        opacity: 0;
     }
   } */
+
+  body {
+     background-color: black;
+     height: 100vh;
+
+  }
+  #titanic {
+     padding-top: 20px;
+     padding-bottom: 20px;
+   margin: auto;
+   width: 50%;
+  }
+  
+
+  .buttons {
+   margin: auto;
+   width: 50%;
+
+  }

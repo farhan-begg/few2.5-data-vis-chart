@@ -5,21 +5,20 @@
     <meta name="viewport" content="width=device-width">
     <title>Titanic View</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
   </head>
   <body>
 
     <div id="titanic">
       <!-- Passenger Div -->
-
-
-
     </div>
 
     <div id='passenger-details' ></div>
-    <button id="btn">Sort by Gender</button>
-    <button id="btns">Sort by Survived</button>
-    <button id="btnss">Sort by Embarked</button>
-
+    <div class="buttons">
+    <button  id="btn" class="button is-success is-light">Sort by Gender</button>
+    <button  id="btns" class="button is-warning is-light">Sort by Survived</button>
+    <button id="btnss" class="button is-danger is-light">Sort by Embarked</button>
+  </div>
 
     <script src="script.js" type="module"></script>
   </body>
